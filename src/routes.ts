@@ -11,7 +11,7 @@ export async function appRoutes(app: FastifyInstance) {
       weekDays: z.array(z.number().min(0).max(6)) 
     })
 
-    const {title, weekDays} =createHabitBody.parse(request.body)
+    const {title, weekDays} = createHabitBody.parse(request.body)
 
     const today = dayjs().startOf('day').toDate()
 
@@ -72,5 +72,63 @@ export async function appRoutes(app: FastifyInstance) {
     }
   })
 
+  app.patch("/habits/:id/toggle", async (request) => {
+    // the :id is a parameter identifier (route poram)
+
+    const toggleHabitParams = z.object({
+      id: z.string().uuid()
+    })
+
+    // id of the habit
+    const {id} = toggleHabitParams.parse(request.params)
+
+    // today's date
+    const today = dayjs().startOf('day').toDate()
+
+    // finding the today's day
+    let day = await prisma.day.findUnique({
+      where: {
+        date: today
+      }
+    })
+
+    // if the day doesn't exist, we create the register to search the related habits
+    if(!day) {
+      day = await prisma.day.create({
+        data: {
+          date: today
+        }
+      });
+    }
+
+    // finding if exist some item into dayHabit table
+    const dayHabit = await prisma.dayHabit.findUnique({
+      where: {
+        day_id_habit_id: {
+          day_id: day.id,
+          habit_id: id,
+        }
+      }
+    })
+
+    if(dayHabit) {
+      // checking item
+      await prisma.dayHabit.delete({
+        where: {
+          id: dayHabit.id
+        }
+      })
+    }else{
+      // unchecking item
+      await prisma.dayHabit.create({
+        data:{
+          day_id: day.id,
+          habit_id: id
+        }
+      })
+    }
+
+  })
+  
 }
 
