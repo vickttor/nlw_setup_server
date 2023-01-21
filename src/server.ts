@@ -12,7 +12,7 @@ app.register(appRoutes) // Consuming Routes
 // Making the Server listen the 3333 (or server) port
 app.listen({
   port: PORT,
-  host: '192.168.1.108'
+  host: '0.0.0.0'
 }).then(()=> {
-  console.log("HTTP server running in http://192.168.1.108:" + PORT)
+  console.log("HTTP server running in http://0.0.0.0:" + PORT)
 })
