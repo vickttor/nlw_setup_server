@@ -1,4 +1,11 @@
 -- CreateTable
+CREATE TABLE "habits" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT NOT NULL,
+    "created_at" DATETIME NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "habit_week_days" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "habit_id" TEXT NOT NULL,
@@ -19,10 +26,16 @@ CREATE TABLE "day_habits" (
 );
 
 -- CreateIndex
+CREATE INDEX "habit_week_days_habit_id_idx" ON "habit_week_days"("habit_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "habit_week_days_habit_id_week_day_key" ON "habit_week_days"("habit_id", "week_day");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "days_date_key" ON "days"("date");
+
+-- CreateIndex
+CREATE INDEX "day_habits_habit_id_idx" ON "day_habits"("habit_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "day_habits_day_id_habit_id_key" ON "day_habits"("day_id", "habit_id");
