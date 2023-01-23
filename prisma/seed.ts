@@ -3,13 +3,13 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 const firstHabitId = '0730ffac-d039-4194-9571-01aa2aa0efbd'
-const firstHabitCreationDate = new Date('2023-01-21T03:00:00.000')
+const firstHabitCreationDate = new Date('2023-01-21T03:00:00.000z')
 
 const secondHabitId = '00880d75-a933-4fef-94ab-e05744435297'
-const secondHabitCreationDate = new Date('2023-01-22T03:00:00.000')
+const secondHabitCreationDate = new Date('2023-01-22T03:00:00.000z')
 
 const thirdHabitId = 'fa1a1bcf-3d87-4626-8c0d-d7fd1255ac00'
-const thirdHabitCreationDate = new Date('2023-01-15T03:00:00.000')
+const thirdHabitCreationDate = new Date('2023-01-15T03:00:00.000z')
 
 async function run() {
 
@@ -27,6 +27,8 @@ async function run() {
             { week_day: 1 },
             { week_day: 2 },
             { week_day: 3 },
+            { week_day: 4 },
+            { week_day: 5 },
           ]
         }
       }
@@ -39,6 +41,8 @@ async function run() {
         created_at: secondHabitCreationDate,
         weekDays: {
           create: [
+            { week_day: 1 },
+            { week_day: 2 },
             { week_day: 3 },
             { week_day: 4 },
             { week_day: 5 },
